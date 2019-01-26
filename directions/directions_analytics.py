@@ -4,7 +4,7 @@ from datetime import datetime
 
 gmaps = googlemaps.Client(key.key)
 
-# Request directions via public transit
+# Request directions via driving
 now = datetime.now()
 directions_result = gmaps.directions("McMaster University, Hamilton, ON",
                                      "CN Tower, Toronto, ON",
