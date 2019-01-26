@@ -1,7 +1,7 @@
 import googlemaps
 from datetime import datetime
 
-gmaps = googlemaps.Client(key='AIzaSyAIyY6RzS5rSPneMCItlf6iEB3m73bzu2c')
+gmaps = googlemaps.Client(key='ENTER_KEY')
 
 # Request directions via public transit
 now = datetime.now()
