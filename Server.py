@@ -1,7 +1,9 @@
 from threading import Thread
 from ServerThread import ServerThread
 import json
-import time
+import random
+
+timeLimit = 30
 
 
 def main():
@@ -10,12 +12,13 @@ def main():
         data = input("Enter JSON file\n")
         if data is not None:
             newTruck = json.load(open(data))
-            threads[newTruck["ID"]] = Thread(target=createMission, args=[newTruck["ID"]])
+            threads[newTruck["ID"]] = Thread(target=createMission, args=[newTruck])
             threads[newTruck["ID"]].start()
 
 
-def createMission(testString):
-    test = ServerThread(testString)
+def createMission(jsonData):
+    code = random.randint(1, 100000)
+    mission = ServerThread(timeLimit, jsonData["ID"], code, jsonData["startLocation"], jsonData["destination"], 0.0, 0.0)
 
 
 if __name__ == "__main__":
