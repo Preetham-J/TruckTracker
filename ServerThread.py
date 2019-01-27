@@ -7,22 +7,12 @@ from GUI import GUI
 class ServerThread: 
 
 	alert = False
-
-#	serverParameters = {
-#		"Alert":'0'
-#		"Truck ID":'0'
-#		"Start Location":'0'
-#		"Destination":'0'
-#		"Latitude":'0'
-#		"Longitude":'0'
-#	}	
-
 	
 	def __init__(self, timeLimit, ID, code, startLocation, destination, latitude, longitude):
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
 		self.timeLimit = timeLimit
-		self.setRoute([ID, startLocation, destination, latitude, longitude])
-		self.GUI = GUI([ID, startLocation, destination, latitude, longitude])
+		self.setRoute()
+		self.GUI = GUI([ID, code startLocation, destination])
 
 	def setRoute(self):
 		truck = self.truck
@@ -46,8 +36,6 @@ class ServerThread:
 		return self.timeLimit
 
 	def verifyLocation(self):
-		# call API instance to check route
-		# returns okay or not okay
 		check = self.directions.check_distance(self.truck.latitude, self.truck.longitude) #set to return value of API call
 		if (check):
 			return True
