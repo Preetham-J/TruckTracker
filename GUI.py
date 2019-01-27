@@ -7,19 +7,19 @@ class GUI:
 		self.thread = Thread(target=self.createGUI)
 		self.thread.start()
 
-	def createGUI(self):
+	def createGUI(self, values):
 		window = Tk()
 		window.title("Controller GUI")
 		labels = ['Truck ID', 'Start Location', 'Destination', 'Latitude', 'Longitude']
+		total_labels = dict(zip(labels, values))
 		gridRow = 1
 		self.setSafeLabel()
 		alertButton = Button(text='Ignore Alert', relief=SUNKEN, height=4, width=12, command=self.setSafeLabel).grid(row=0, column=1)
 		for label in labels:
 			Label(text=label, relief=RIDGE, width=15).grid(row=gridRow, column=0)
-			Entry(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
-			#Entry(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
+			text = Text(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
+			text.insert(1.0,value)
 			gridRow = gridRow + 1
-		#self.readServerParameters()
 		window.mainloop()
 
 	def updateGUI(self, alert):
