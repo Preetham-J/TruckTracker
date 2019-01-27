@@ -1,4 +1,4 @@
-from truck.py import Truck
+from Truck.py import Truck
 
 #0 Server sends JSON to GUI (which is always listening for new missions)
 #1 GUI class instantites new Truck in a new thread, with data from JSON
