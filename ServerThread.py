@@ -13,16 +13,13 @@ class ServerThread:
 		# instantiate/updates API with startLocation and destination
 		# when API returns that it is finished, start receiveLocation and updateLocation()
 
-	def receiveLocation(self, newLatitude, newLongitude):
-		while True:
-			if (latitude and longitude):
-				#call update location
-				self.verifyLocation(latitude, longitude)
-				return
-			else:
-				pass			
+	def setLatitude(self, latitude):
+		self.latitude = latitude
 
-	def verifyLocation(self, latitude, longitude):
+	def setLongitude(self, longitude):
+		self.longitude = longitude
+
+	def verifyLocation(self):
 		# call API instance to check route
 		# returns okay or not okay
 		check = True #set to return value of API call
