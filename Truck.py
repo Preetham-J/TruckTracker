@@ -3,8 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Truck: 
         ID: str
-        startLatitude: float
-        startLongitude: float
+	startLocation: str
         destination: str
         latitude: float
         longitude: float
