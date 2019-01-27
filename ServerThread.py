@@ -1,5 +1,4 @@
 from Truck import Truck
-from threading import Timer
 
 class ServerThread: 
 
@@ -11,15 +10,18 @@ class ServerThread:
 		self.setRoute()
 
 	def setRoute(self):
-		return
+		truck = self.truck
+		# destination and startLocation must be of fromat: "McMaster University, Hamilton, ON"
+		self.directions = Directions(truck.startLocation, truck.destination)
+
 		# instantiate/updates API with startLocation and destination
 		# when API returns that it is finished, start receiveLocation and updateLocation()
 
 	def setLatitude(self, latitude):
-		self.latitude = latitude
+		self.truck.latitude = latitude
 
 	def setLongitude(self, longitude):
-		self.longitude = longitude
+		self.truck.longitude = longitude
 
 	def getTimeLimit(self):
 		return self.timeLimit
@@ -27,7 +29,7 @@ class ServerThread:
 	def verifyLocation(self):
 		# call API instance to check route
 		# returns okay or not okay
-		check = True #set to return value of API call
+		check = self.directions.check_distance(latitude, longitude) #set to return value of API call
 		if (check):
 			return True
 		else:	
