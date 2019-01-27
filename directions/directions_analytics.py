@@ -20,6 +20,7 @@ class Directions:
 			line = polyline.decode(polylines)
 			point_array = point_array + line
 		self.point_array = np.asarray(point_array)
+		np.save("test.npy", self.point_array)
  	
  	#get the closest points
 	def get_distance(self, lat, lng):

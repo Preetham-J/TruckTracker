@@ -1,28 +1,33 @@
 from tkinter import *
+from threading import Thread
 
 class GUI:
 
 	def __init__(self):
+		self.thread = Thread(target=self.createGUI)
+		self.thread.start()
+
+	def createGUI(self):
 		window = Tk()
 		window.title("Controller GUI")
 		labels = ['Truck ID', 'Start Location', 'Destination', 'Latitude', 'Longitude']
 		gridRow = 1
-		setSafeLabel()
-		alertButton = Button(text='Ignore Alert', relief=SUNKEN, height=4, width=12, command=setSafeLabel).grid(row=0, column=1)
+		self.setSafeLabel()
+		alertButton = Button(text='Ignore Alert', relief=SUNKEN, height=4, width=12, command=self.setSafeLabel).grid(row=0, column=1)
 		for label in labels:
 			Label(text=label, relief=RIDGE, width=15).grid(row=gridRow, column=0)
 			Entry(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
 			#Entry(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
 			gridRow = gridRow + 1
-		readServerParameters()
+		#self.readServerParameters()
 		window.mainloop()
 
 	def updateGUI(self, alert):
 		try:
 			if (int(alert)):
-				setAlertLabel()
+				self.setAlertLabel()
 			else:
-				setSafeLabel()
+				self.setSafeLabel()
 		except ValueError:
 			pass
 

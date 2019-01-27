@@ -30,7 +30,7 @@ class StartPage(tk.Frame):
 		labelvar = tk.StringVar()
 		labelvar.set("No Signal Received") 
 		def update_signal():
-			with open("get_code.txt","r") as f:
+			with open("resources/get_code.txt","r") as f:
 				items = f.read()
 				try:
 					items = int(items)
@@ -59,7 +59,7 @@ class StartPage(tk.Frame):
 			numvar.set("%s%d"%(numvar.get(),num))
 			number_disp.set("%s*"%(number_disp.get()))
 
-		for i in range(1,10):
+		for i in range(0,10):
 			button = ttk.Button(self, text="%d"%i, command=lambda i=i: add_to_var(i))
 			button.pack()
 
@@ -73,7 +73,7 @@ class StartPage(tk.Frame):
 		button.pack()
 
 		def save_code():
-			with open("code.txt", "w") as f:
+			with open("resources/code.txt", "w") as f:
 				f.write(numvar.get())
 
 		button = ttk.Button(self, text="send code", command=lambda: save_code())

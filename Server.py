@@ -3,7 +3,7 @@ from threading import Timer
 from ServerThread import ServerThread
 import json
 import random
-import time
+import os
 
 defaultTimeLimit = 30
 
@@ -22,81 +22,68 @@ def main():
 
 def createMission(jsonData):
     driverCode = random.randint(100000, 999999)
+    print(driverCode)
     positionPath = jsonData["positionFile"]
-    positionFile = open(positionPath, "r")
     position = {
         "latitude": None,
-        "longitude": None,
-        "lastLength": 0
+        "longitude": None
     }
+    codeFile = jsonData["codeFile"]
+    requestCodeFile = jsonData["requestCodeFile"]
     mission = ServerThread(defaultTimeLimit, jsonData["ID"], driverCode, jsonData["startLocation"], jsonData["destination"], 0.0, 0.0)
     while True:
-        receiveLocation(positionFile, position)
-        print(position["latitude"])
-        print(position["longitude"])
+        receiveLocation(positionPath, position)
         mission.setLatitude(position["latitude"])
         mission.setLongitude(position["longitude"])
+        print("hi1")
         check = mission.verifyLocation()
+        print("hi2")
         if not check:
-            inputCode = requestCode(mission.getTimeLimit(), mission)
+            inputCode = requestCode(mission.getTimeLimit(), mission, codeFile, requestCodeFile)
             mission.verifyCode(inputCode)
 
 
-def receiveLocation(positionFile, previousPosition):
+def receiveLocation(positionPath, previousPosition):
     while True:
-        positionFile.flush()
-        positionJson = json.load(positionFile)
-        positionFile.seek(0)
-        print(positionJson)
-        time.sleep(2)
-        currentLength = len(positionJson["latitude"])
-        previousLength = previousPosition["lastLength"]
-        if currentLength != previousLength:
-            print("hello")
-            previousPosition["latitude"] = positionJson["latitude"][currentLength-1]
-            previousPosition["longitude"] = positionJson["longitude"][currentLength-1]
-            previousPosition["lastLength"] = currentLength
+        while True:
+            try:
+                positionFile = open(positionPath, "r")
+                positionJson = json.load(positionFile)
+                positionFile.close()
+            except json.JSONDecodeError:
+                print("Error reading file")
+            else:
+                break
+        positionLatitude = positionJson["latitude"]
+        positionLongitude = positionJson["longitude"]
+        if (previousPosition["latitude"] != positionLatitude) or (previousPosition["longitude"] != positionLongitude):
+            previousPosition["latitude"] = positionLatitude
+            previousPosition["longitude"] = positionLongitude
             return
 
 
-
-def requestCode(missionTimeLimit, mission):
+def requestCode(missionTimeLimit, mission, codeFile, requestCodeFile):
     timer = Timer(missionTimeLimit, mission.sendAlert)
     while not mission.alert:
-        inputCode = receiveCode()
+        inputCode = receiveCode(codeFile, requestCodeFile)
         if inputCode is not None:
             timer.cancel()
             return inputCode
 
 
-# TODO: Ping driver
-def receiveCode():
-    return input("\nPlease enter your code: ")
+def receiveCode(codeFile, requestCodeFile):
+    startCodeFileTime = os.stat(codeFile).st_mtime
+    with open(requestCodeFile, "w") as f:
+        f.write("1")
+    while True:
+        currentCodeFileTime = os.stat(codeFile).st_mtime
+        if startCodeFileTime != currentCodeFileTime:
+            f = open(codeFile, "r")
+            lines = f.readlines()
+            with open(requestCodeFile, "w") as f:
+                f.write("0")
+            return lines
 
 
 if __name__ == "__main__":
     main()
-
-
-# def main():
-#     threads = {}
-#     while True:
-#         data = input("Enter JSON file\n")
-#         if data is not None:
-#             newTruck = json.load(open(data))
-#             threads[newTruck["ID"]] = Thread(target=runTest, args=[newTruck["ID"]])
-#             threads[newTruck["ID"]].start()
-#
-#
-# class Test:
-#     def __init__(self, testString):
-#         self.testString = testString
-#
-#     def printTestString(self):
-#         print("\nTruck ID is: %d", self.testString)
-#
-#
-# def runTest(testString):
-#     time.sleep(10)
-#     test = Test(testString)
-#     test.printTestString()
