@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Truck: 
-        ID: int
-	code: int
-	startLocation: str
+        ID: str
+        startLatitude: float
+        startLongitude: float
         destination: str
         latitude: float
         longitude: float
