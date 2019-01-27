@@ -1,5 +1,5 @@
 from Truck import Truck
-from Thread import Timer
+from threading import Timer
 
 class ServerThread: 
 	
@@ -19,6 +19,9 @@ class ServerThread:
 	def setLongitude(self, longitude):
 		self.longitude = longitude
 
+	def getTimeLimit(self):
+		return self.timeLimit
+
 	def verifyLocation(self):
 		# call API instance to check route
 		# returns okay or not okay
@@ -30,37 +33,11 @@ class ServerThread:
 			#self.requestCode() -- called by server instead 
 			return False
 
-	# correspond to send request, while loop, is past time limit, is code recieved
-	def requestCode(self):
-		timer = Timer(self.timeLimit, self.sendAlert) #start timer
-		bFlag = True
-		while (bFlag):
-			bFlag = self.receiveCode(timer, code)	
-		self.verifyCode(code)
-
-	def receiveCode(self, timer, code):
-		if (code):
-			timer.cancel()
-			print("code received.")
-			#self.verifyCode(code)
-			return False 
-		else:
-			return True
-			
-	# corresponds to is code correct, update route
-	def verifyCode(self, code):
-		if (code == self.truck.code):
-			self.setRoute()
-		else:
-			self.sendAlert() 	
-
-	# corresponds to Alert
 	def sendAlert(self):
 		# prompt GUI to notify user if they want to request driver code
 		# this.parent.displayAlert
-	# for GUI
+	
 	def updateLocation(self):
-		
-	return
+		return
 		# returns current latitude and longitude
 		# this.parent.displayLocation
