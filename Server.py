@@ -3,6 +3,7 @@ from threading import Timer
 from ServerThread import ServerThread
 import json
 import random
+import time
 
 defaultTimeLimit = 30
 
@@ -12,14 +13,17 @@ def main():
     while True:
         data = input("Enter JSON file\n")
         if data is not None:
-            newTruck = json.load(open(data))
+            dataFile = open(data)
+            newTruck = json.load(dataFile)
+            dataFile.close()
             threads[newTruck["ID"]] = Thread(target=createMission, args=[newTruck])
             threads[newTruck["ID"]].start()
 
 
 def createMission(jsonData):
     driverCode = random.randint(100000, 999999)
-    positionFile = jsonData["positionFile"]
+    positionPath = jsonData["positionFile"]
+    positionFile = open(positionPath, "r")
     position = {
         "latitude": None,
         "longitude": None,
@@ -28,6 +32,8 @@ def createMission(jsonData):
     mission = ServerThread(defaultTimeLimit, jsonData["ID"], driverCode, jsonData["startLocation"], jsonData["destination"], 0.0, 0.0)
     while True:
         receiveLocation(positionFile, position)
+        print(position["latitude"])
+        print(position["longitude"])
         mission.setLatitude(position["latitude"])
         mission.setLongitude(position["longitude"])
         check = mission.verifyLocation()
@@ -38,13 +44,20 @@ def createMission(jsonData):
 
 def receiveLocation(positionFile, previousPosition):
     while True:
-        positionJson = json.load(open(positionFile))
+        positionFile.flush()
+        positionJson = json.load(positionFile)
+        positionFile.seek(0)
+        print(positionJson)
+        time.sleep(2)
         currentLength = len(positionJson["latitude"])
         previousLength = previousPosition["lastLength"]
         if currentLength != previousLength:
+            print("hello")
             previousPosition["latitude"] = positionJson["latitude"][currentLength-1]
             previousPosition["longitude"] = positionJson["longitude"][currentLength-1]
-            break
+            previousPosition["lastLength"] = currentLength
+            return
+
 
 
 def requestCode(missionTimeLimit, mission):
