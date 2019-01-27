@@ -65,7 +65,7 @@ def main():
 	x = 30
 	y = 40
 	size = 3
-	step = 7
+	step = 2
 	loop_counter = 0
 
 	while running:
