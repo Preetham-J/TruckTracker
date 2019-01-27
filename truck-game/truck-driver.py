@@ -1,8 +1,10 @@
 import pygame
 import numpy as np
+import json
 
 WIDTH = 1230
 HEIGHT = 758
+TRUCK_ID = 11235
 MAP_TOP_LEFT_LAT = 43.622159
 MAP_TOP_LEFT_LONG = -79.710960
 MAP_BOTTOM_RIGHT_LAT = 43.582567
@@ -10,19 +12,30 @@ MAP_BOTTOM_RIGHT_LONG = -79.615173
 LAT_PX = abs(MAP_TOP_LEFT_LAT - MAP_BOTTOM_RIGHT_LAT) / HEIGHT
 LONG_PX = abs(MAP_TOP_LEFT_LONG - MAP_BOTTOM_RIGHT_LONG) / WIDTH
 
+def write_point_to_file(point):
+	file = open('../truck_info.json', 'w')
+	data = {
+		'truck_id': TRUCK_ID,
+		'latitude': point[0],
+		'longitude': point[1]
+	}
+	file.write(json.dumps(data))
+	file.write("\n")
+	file.close()
+
 def pixel2deg(point):
-	point_deg = ()
-	point_deg = point_deg + (MAP_TOP_LEFT_LAT - point[1] * LAT_PX)
-	point_deg = point_deg + (point[0] * LONG_PX + MAP_TOP_LEFT_LONG)
-	return point_deg
+	point_deg = []
+	point_deg = point_deg + [MAP_TOP_LEFT_LAT - point[1] * LAT_PX]
+	point_deg = point_deg + [point[0] * LONG_PX + MAP_TOP_LEFT_LONG]
+	return tuple(point_deg)
 
 def deg2pixel(point):
-	point_px = ()
-	point_px = point_px + int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX))
-	point_px = point_px + int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))
+	point_px = []
+	point_px = point_px + [int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX))]
+	point_px = point_px + [int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))]
 	return point_px
 
-def plotPoints(screen, lat_px, long_px):
+def plotPoints(screen):
 	data = np.load('../directions/test.npy')
 	for point in data:
 		print(str(int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX))), str(int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))))
@@ -64,9 +77,11 @@ def main():
 		screen.blit(truck, (x-30, y-40))
 		#pygame.draw.rect(screen, (255, 0, 0), (x, y, size, size), 1)
 		pygame.draw.circle(screen, (255, 0, 0), (x, y), size, 0)
-		plotPoints(screen, LAT_PX, LONG_PX)
+		plotPoints(screen)
 		if loop_counter == 30:
 			print(str(x * LONG_PX + MAP_TOP_LEFT_LONG) + ', ' + str(MAP_TOP_LEFT_LAT - y * LAT_PX))
+			pt = pixel2deg((x,y))
+			write_point_to_file(pt)
 			loop_counter = 0
 		else:
 			loop_counter += 1
