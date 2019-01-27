@@ -20,7 +20,6 @@ class Directions:
 			line = polyline.decode(polylines)
 			point_array = point_array + line
 		self.point_array = np.asarray(point_array)
-		return point_array
  	
  	#get the closest points
 	def get_distance(self, lat, lng):
@@ -73,7 +72,7 @@ class Directions:
 
 	# Print direction, start/end latitude and longitude
 	def print_direction(self):
-		points = self.get_points()
+		points = self.point_array
 		for point in points:
 			#print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
 			print(str(point[0]) + ", " + str(point[1]))
@@ -98,7 +97,6 @@ def main():
 	np.save("test.npy", directions.point_array)
 	#print(directions.check_distance(25, -79))
 	directions.print_direction()
-
 
 if __name__ == '__main__':
 	main()
