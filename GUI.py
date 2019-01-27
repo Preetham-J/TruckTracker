@@ -3,26 +3,37 @@ from threading import Thread
 
 class GUI:
 
-	def __init__(self):
-		self.thread = Thread(target=self.createGUI)
+	def __init__(self, values):
+		self.thread = Thread(target=self.createGUI, args=values)
 		self.thread.start()
 
 	def createGUI(self, values):
 		window = Tk()
 		window.title("Controller GUI")
-		labels = ['Truck ID', 'Start Location', 'Destination', 'Latitude', 'Longitude']
+		labels = ['Truck ID', 'Code', 'Start Location', 'Destination']
 		total_labels = dict(zip(labels, values))
 		gridRow = 1
 		self.setSafeLabel()
 		alertButton = Button(text='Ignore Alert', relief=SUNKEN, height=4, width=12, command=self.setSafeLabel).grid(row=0, column=1)
+		#self.text_values = {}
 		for label in labels:
+			value = total_labels[label]
 			Label(text=label, relief=RIDGE, width=15).grid(row=gridRow, column=0)
 			text = Text(relief=SUNKEN, width=15).grid(row=gridRow, column=1)
-			text.insert(1.0,value)
+			#self.text_values[label] = text
+			text.insert(1.0, value)
 			gridRow = gridRow + 1
 		window.mainloop()
 
-	def updateGUI(self, alert):
+	def updateGUI(self, values):
+		labels = ['Truck ID', 'Start Location', 'Destination', 'Latitude', 'Longitude']
+		total_labels = dict(zip(labels, values))
+		for label in labels:
+			value = total_labels[label]
+			text = self.text_values[label]
+			text.insert(1.0,value)
+			
+	def alertGUI(self, alert):
 		try:
 			if (int(alert)):
 				self.setAlertLabel()
