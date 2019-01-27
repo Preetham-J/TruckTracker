@@ -21,6 +21,7 @@ class ServerThread:
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
 		self.timeLimit = timeLimit
 		self.setRoute()
+		self.GUI = GUI()
 
 	def setRoute(self):
 		truck = self.truck
@@ -59,6 +60,5 @@ class ServerThread:
 			self.sendAlert() 
 
 	def sendAlert(self):
-		#with open("serverParameters.txt", "w") as f:
-		#	f.write(
 		alert = True
+		self.GUI.updateGUI(alert)
