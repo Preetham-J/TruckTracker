@@ -18,10 +18,16 @@ def main():
 
 
 def createMission(jsonData):
-    driverCode = random.randint(1, 100000)
+    driverCode = random.randint(100000, 999999)
+    positionFile = jsonData["positionFile"]
+    position = {
+        "latitude": None,
+        "longitude": None,
+        "lastLength": 0
+    }
     mission = ServerThread(defaultTimeLimit, jsonData["ID"], driverCode, jsonData["startLocation"], jsonData["destination"], 0.0, 0.0)
     while True:
-        position = receiveLocation()
+        receiveLocation(positionFile, position)
         mission.setLatitude(position["latitude"])
         mission.setLongitude(position["longitude"])
         check = mission.verifyLocation()
@@ -30,13 +36,15 @@ def createMission(jsonData):
             mission.verifyCode(inputCode)
 
 
-def receiveLocation():
-    position = {
-        "latitude": None,
-        "longitude": None
-    }
-    
-    return position
+def receiveLocation(positionFile, previousPosition):
+    while True:
+        positionJson = json.load(open(positionFile))
+        currentLength = len(positionJson["latitude"])
+        previousLength = previousPosition["lastLength"]
+        if currentLength != previousLength:
+            previousPosition["latitude"] = positionJson["latitude"][currentLength-1]
+            previousPosition["longitude"] = positionJson["longitude"][currentLength-1]
+            break
 
 
 def requestCode(missionTimeLimit, mission):
