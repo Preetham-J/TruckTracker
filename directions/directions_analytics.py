@@ -11,7 +11,11 @@ directions_result = gmaps.directions("McMaster University, Hamilton, ON",
                                      mode="driving",
                                      departure_time=now)
 
+lats = []
+longs = []
 for route in directions_result[0]["legs"][0]["steps"]:
-    print("Lat, Long: " + str(route["start_location"]["lat"]) + ", " + str(route["start_location"]["lng"]))
-
-
+    lat = route["start_location"]["lat"]
+    lng = route["start_location"]["lng"]
+    print("Lat, Long: " + str(lat) + ", " + str(lng))
+    lats.append(lat)
+    longs.append(lng)
