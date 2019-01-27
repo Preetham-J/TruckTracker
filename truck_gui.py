@@ -56,8 +56,8 @@ class StartPage(tk.Frame):
 		label.pack()
 		
 		def add_to_var(num):
-			numvar.set("%d%s"%(num,numvar.get()))
-			number_disp.set("*%s"%(number_disp.get()))
+			numvar.set("%s%d"%(numvar.get(),num))
+			number_disp.set("%s*"%(number_disp.get()))
 
 		for i in range(1,10):
 			button = ttk.Button(self, text="%d"%i, command=lambda i=i: add_to_var(i))
