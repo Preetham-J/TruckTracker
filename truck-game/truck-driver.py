@@ -13,7 +13,7 @@ LAT_PX = abs(MAP_TOP_LEFT_LAT - MAP_BOTTOM_RIGHT_LAT) / HEIGHT
 LONG_PX = abs(MAP_TOP_LEFT_LONG - MAP_BOTTOM_RIGHT_LONG) / WIDTH
 
 def write_point_to_file(point):
-	file = open('../truck_info.json', 'a')
+	file = open('../resources/truck_info.json', 'a')
 	data = {
 		'truck_id': TRUCK_ID,
 		'latitude': point[0],
@@ -70,7 +70,6 @@ def main():
 	loop_counter = 0
 
 	while running:
-		pygame.time.Clock().tick(30)
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_UP]:
 			y = max(0, y - step)

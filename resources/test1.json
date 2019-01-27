@@ -1,0 +1,8 @@
+{
+  "ID":1,
+  "startLocation":"York University, Vaughan, Ontario, Canada",
+  "destination":"McMaster University, Hamilton, Ontario, Canada",
+  "positionFile":"resources/truck_info.json",
+  "codeFile":"resources/code.txt",
+  "requestCodeFile":"resources/get_code.txt"
+}

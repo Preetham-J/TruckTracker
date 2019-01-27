@@ -9,7 +9,7 @@ class Directions:
 	def __init__(self, origin, destination):
 		self.gmaps = googlemaps.Client(key.key)
 		self.directions_result = self.gmaps.directions(origin, destination, mode="driving", departure_time=datetime.now())
-		self.latitude_threshold = 0.00001
+		self.latitude_threshold = 0.001
 		self.get_points()
 
 	# Gets points on route
@@ -20,6 +20,7 @@ class Directions:
 			line = polyline.decode(polylines)
 			point_array = point_array + line
 		self.point_array = np.asarray(point_array)
+		np.save("test.npy", self.point_array)
  	
  	#get the closest points
 	def get_distance(self, lat, lng):
