@@ -55,7 +55,8 @@ class ServerThread:
 			return False
 
 	def verifyCode(self, inputCode):
-		if (inputCode == self.truck.code):
+		print("input code is " + str(inputCode) + " truck code is " + str(self.truck.code))
+		if int(inputCode) == int(self.truck.code):
 			self.setRoute()
 		else:
 			self.sendAlert() 

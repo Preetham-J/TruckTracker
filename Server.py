@@ -66,9 +66,9 @@ def requestCode(missionTimeLimit, mission, codeFile, requestCodeFile):
     timer = Timer(missionTimeLimit, mission.sendAlert)
     while not mission.alert:
         inputCode = receiveCode(codeFile, requestCodeFile)
-        if inputCode is not None:
+        if len(inputCode) >= 1:
             timer.cancel()
-            return inputCode
+            return inputCode[0]
 
 
 def receiveCode(codeFile, requestCodeFile):
@@ -78,6 +78,7 @@ def receiveCode(codeFile, requestCodeFile):
     while True:
         currentCodeFileTime = os.stat(codeFile).st_mtime
         if startCodeFileTime != currentCodeFileTime:
+            print("hello")
             f = open(codeFile, "r")
             lines = f.readlines()
             with open(requestCodeFile, "w") as f:
