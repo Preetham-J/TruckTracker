@@ -3,6 +3,7 @@ import googlemaps
 from datetime import datetime
 import polyline
 import numpy as np
+
 class Directions:
 	# Initialize Google Maps client and retrieve directions info
 	def __init__(self, origin, destination):
@@ -19,6 +20,7 @@ class Directions:
 			line = polyline.decode(polylines)
 			point_array = point_array + line
 		self.point_array = np.asarray(point_array)
+		return point_array
  	
  	#get the closest points
 	def get_distance(self, lat, lng):
@@ -78,7 +80,7 @@ class Directions:
 # Main
 def main():
 	directions = Directions("McMaster University, Hamilton, ON", "CN Tower, Toronto, ON")
-	print(directions.check_distance(25, -79))
+	# print(directions.check_distance(25, -79))
 
 
 if __name__ == '__main__':
