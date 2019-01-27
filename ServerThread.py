@@ -15,14 +15,14 @@ class ServerThread:
 
 	def receiveLocation(self, latitude, longitude):
 		while True:
-			if (latitude && longitude):
+			if (latitude and longitude):
 				#call update location
 				self.verifyLocation(latitude, longitude)
 				
 # While loop until data is received
 		# once data is received, update gpsData and call verifyLocation
 
-	def verifyLocation(self):
+	def verifyLocation(self, latitude, longitude):
 		# call API instance to check route
 		# returns okay or not okay
 		check = True #set to return value of API call
@@ -61,5 +61,6 @@ class ServerThread:
 		# this.parent.displayAlert
 	# for GUI
 	def updateLocation(self):
+		return
 		# returns current latitude and longitude
 		# this.parent.displayLocation
