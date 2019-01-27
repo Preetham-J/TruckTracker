@@ -21,6 +21,7 @@ def write_point_to_file(point):
 	}
 	file.write(json.dumps(data))
 	file.write("\n")
+	file.flush()
 	file.close()
 
 def pixel2deg(point):
@@ -65,7 +66,7 @@ def main():
 	x = 30
 	y = 40
 	size = 3
-	step = 3
+	step = 1
 	loop_counter = 0
 
 	while running:
