@@ -1,4 +1,4 @@
-import keys
+import key
 import googlemaps
 from datetime import datetime
 import polyline
@@ -7,7 +7,7 @@ import numpy as np
 class Directions:
 	# Initialize Google Maps client and retrieve directions info
 	def __init__(self, origin, destination):
-		self.gmaps = googlemaps.Client(keys.gmaps)
+		self.gmaps = googlemaps.Client(key.key)
 		self.directions_result = self.gmaps.directions(origin, destination, mode="driving", departure_time=datetime.now())
 		self.latitude_threshold = 0.00001
 		self.get_points()
@@ -96,7 +96,8 @@ class Directions:
 def main():
 	directions = Directions((43.612217, -79.695425), (43.597549, -79.640493))
 	np.save("test.npy", directions.point_array)
-	# print(directions.check_distance(25, -79))
+	#print(directions.check_distance(25, -79))
+	directions.print_direction()
 
 
 if __name__ == '__main__':

@@ -37,9 +37,16 @@ def deg2pixel(point):
 
 def plotPoints(screen):
 	data = np.load('../directions/test.npy')
+	pts = []
 	for point in data:
-		print(str(int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX))), str(int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))))
-		pygame.draw.circle(screen, (255, 0, 255), (int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX)), int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))), 3, 0)
+		# point = data[i]
+		# last_point = data[i - 1]
+		#print(str(int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX))), str(int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))))
+		# pygame.draw.circle(screen, (255, 0, 255), (int(((point[1] - MAP_TOP_LEFT_LONG) / LONG_PX)), int(((MAP_TOP_LEFT_LAT - point[0]) / LAT_PX))), 3, 0)
+		# pygame.draw.circle(screen, (255, 0, 255), deg2pixel(point), 3, 0)
+		pts.append(deg2pixel(point))
+
+	pygame.draw.lines(screen, (69, 69, 255), False, pts, 4)
 
 
 def main():
@@ -74,10 +81,11 @@ def main():
 
 		screen.fill((0, 0, 0))
 		screen.blit(bg, (0,0))
+		plotPoints(screen)
 		screen.blit(truck, (x-30, y-40))
 		#pygame.draw.rect(screen, (255, 0, 0), (x, y, size, size), 1)
 		pygame.draw.circle(screen, (255, 0, 0), (x, y), size, 0)
-		plotPoints(screen)
+		
 		if loop_counter == 30:
 			print(str(x * LONG_PX + MAP_TOP_LEFT_LONG) + ', ' + str(MAP_TOP_LEFT_LAT - y * LAT_PX))
 			pt = pixel2deg((x,y))
