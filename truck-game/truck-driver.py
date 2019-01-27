@@ -13,7 +13,7 @@ LAT_PX = abs(MAP_TOP_LEFT_LAT - MAP_BOTTOM_RIGHT_LAT) / HEIGHT
 LONG_PX = abs(MAP_TOP_LEFT_LONG - MAP_BOTTOM_RIGHT_LONG) / WIDTH
 
 def write_point_to_file(point):
-	file = open('../truck_info.json', 'w')
+	file = open('../truck_info.json', 'a')
 	data = {
 		'truck_id': TRUCK_ID,
 		'latitude': point[0],
