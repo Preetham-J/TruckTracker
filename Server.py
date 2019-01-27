@@ -4,6 +4,7 @@ from ServerThread import ServerThread
 import json
 import random
 import os
+import time
 
 defaultTimeLimit = 30
 
@@ -24,6 +25,7 @@ def createMission(jsonData):
     driverCode = random.randint(100000, 999999)
     print(driverCode)
     positionPath = jsonData["positionFile"]
+    positionFile = open(positionPath, "r")
     position = {
         "latitude": None,
         "longitude": None
@@ -32,28 +34,27 @@ def createMission(jsonData):
     requestCodeFile = jsonData["requestCodeFile"]
     mission = ServerThread(defaultTimeLimit, jsonData["ID"], driverCode, jsonData["startLocation"], jsonData["destination"], 0.0, 0.0)
     while True:
-        receiveLocation(positionPath, position)
+        receiveLocation(positionFile, position)
         mission.setLatitude(position["latitude"])
         mission.setLongitude(position["longitude"])
-        print("hi1")
         check = mission.verifyLocation()
-        print("hi2")
         if not check:
             inputCode = requestCode(mission.getTimeLimit(), mission, codeFile, requestCodeFile)
             mission.verifyCode(inputCode)
 
 
-def receiveLocation(positionPath, previousPosition):
+def receiveLocation(positionFile, previousPosition):
     while True:
         while True:
             try:
-                positionFile = open(positionPath, "r")
-                positionJson = json.load(positionFile)
-                positionFile.close()
+                line = positionFile.readline()
+                if not line:
+                    time.sleep(0.1)
+                else:
+                    positionJson = json.loads(line)
+                    break
             except json.JSONDecodeError:
                 print("Error reading file")
-            else:
-                break
         positionLatitude = positionJson["latitude"]
         positionLongitude = positionJson["longitude"]
         if (previousPosition["latitude"] != positionLatitude) or (previousPosition["longitude"] != positionLongitude):
@@ -78,7 +79,7 @@ def receiveCode(codeFile, requestCodeFile):
     while True:
         currentCodeFileTime = os.stat(codeFile).st_mtime
         if startCodeFileTime != currentCodeFileTime:
-            print("hello")
+            print("hi")
             f = open(codeFile, "r")
             lines = f.readlines()
             with open(requestCodeFile, "w") as f:

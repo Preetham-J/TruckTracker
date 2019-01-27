@@ -21,8 +21,8 @@ class ServerThread:
 	def __init__(self, timeLimit, ID, code, startLocation, destination, latitude, longitude):
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
 		self.timeLimit = timeLimit
-		self.setRoute([ID, startLocation, destination, latitude, longitude])
-		self.GUI = GUI([ID, startLocation, destination, latitude, longitude])
+		self.setRoute()
+		self.GUI = GUI()
 
 	def setRoute(self):
 		truck = self.truck
