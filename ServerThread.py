@@ -19,6 +19,9 @@ class ServerThread:
 	def setLongitude(self, longitude):
 		self.longitude = longitude
 
+	def getTimeLimit(self):
+		return self.timeLimit
+
 	def verifyLocation(self):
 		# call API instance to check route
 		# returns okay or not okay
