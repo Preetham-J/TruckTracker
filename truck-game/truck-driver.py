@@ -2,20 +2,31 @@ import pygame
 
 WIDTH = 1230
 HEIGHT = 758
+MAP_TOP_LEFT_LAT = 43.622159
+MAP_TOP_LEFT_LONG = -79.710960
+MAP_BOTTOM_RIGHT_LAT = 43.582567
+MAP_BOTTOM_RIGHT_LONG = -79.615173
 
 def main():
 	pygame.init()
 	pygame.display.set_caption('Truck Driver Simulator')
 	screen = pygame.display.set_mode((WIDTH, HEIGHT))
 	bg = pygame.image.load("map_bg.png")
-	pygame.transform.scale(bg, (WIDTH, HEIGHT))
-	truck = pygame.image.load('truck_sprite.jpg')
-	
+	bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+	truck = pygame.image.load('truck_sprite.png')
+	truck = pygame.transform.scale(truck, (60, 60))
+
+	# Lat/Long measurements
+	lat_px = abs(MAP_TOP_LEFT_LAT - MAP_BOTTOM_RIGHT_LAT) / HEIGHT
+	long_px = abs(MAP_TOP_LEFT_LONG - MAP_BOTTOM_RIGHT_LONG) / WIDTH
+
+	print("Lat PX:", lat_px)
+	print('Long Px:', long_px)
 	
 	running = True
-	x = 0
-	y = 0
-	size = 10
+	x = 30
+	y = 40
+	size = 3
 	step = 7
 	loop_counter = 0
 
@@ -32,10 +43,11 @@ def main():
 
 		screen.fill((0, 0, 0))
 		screen.blit(bg, (0,0))
-		screen.blit(truck, (x, y))
+		screen.blit(truck, (x-30, y-40))
 		#pygame.draw.rect(screen, (255, 0, 0), (x, y, size, size), 1)
-		if loop_counter == 100:
-			print(str(x) + ', ' + str(y))
+		pygame.draw.circle(screen, (255, 0, 0), (x, y), size, 0)
+		if loop_counter == 30:
+			print(str(x * long_px + MAP_TOP_LEFT_LONG) + ', ' + str(MAP_TOP_LEFT_LAT - y * lat_px))
 			loop_counter = 0
 		else:
 			loop_counter += 1
