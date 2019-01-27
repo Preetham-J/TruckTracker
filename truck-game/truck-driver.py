@@ -65,10 +65,11 @@ def main():
 	x = 30
 	y = 40
 	size = 3
-	step = 7
+	step = 3
 	loop_counter = 0
 
 	while running:
+		pygame.time.Clock().tick(30)
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_UP]:
 			y = max(0, y - step)
