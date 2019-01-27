@@ -24,7 +24,8 @@ class Directions:
 	def print_info(self):
 		points = self.get_points()
 		for point in points:
-			print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
+			#print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
+			print(str(point[0]) + ", " + str(point[1]))
 		# for step in self.directions_result[0]["legs"][0]["steps"]:
 		# 	# print("Direction: " + str(step["distance"]["text"]))
 		# 	# print("Start Lat/Long: " + str(step["start_location"]["lat"]) + "/" + str(step["start_location"]["lng"]))
