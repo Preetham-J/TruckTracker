@@ -1,4 +1,4 @@
-import keys
+import key
 import googlemaps
 from datetime import datetime
 import polyline
@@ -7,7 +7,7 @@ import numpy as np
 class Directions:
 	# Initialize Google Maps client and retrieve directions info
 	def __init__(self, origin, destination):
-		self.gmaps = googlemaps.Client(keys.gmaps)
+		self.gmaps = googlemaps.Client(key.key)
 		self.directions_result = self.gmaps.directions(origin, destination, mode="driving", departure_time=datetime.now())
 		self.latitude_threshold = 0.00001
 		self.get_points()
@@ -74,17 +74,29 @@ class Directions:
 	def print_direction(self):
 		points = self.point_array
 		for point in points:
-			print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
+			#print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
+			print(str(point[0]) + ", " + str(point[1]))
+		# for step in self.directions_result[0]["legs"][0]["steps"]:
+		# 	# print("Direction: " + str(step["distance"]["text"]))
+		# 	# print("Start Lat/Long: " + str(step["start_location"]["lat"]) + "/" + str(step["start_location"]["lng"]))
+		# 	# print("End Lat/Long: " + str(step["end_location"]["lat"]) + "/" + str(step["end_location"]["lng"]))
+			
+		# 	# print(str(step["start_location"]["lat"]) + "\t" + str(step["start_location"]["lng"]) + "\tcircle3\tred\t1")
+		# 	# print(str(step["end_location"]["lat"]) + "\t" + str(step["end_location"]["lng"]) + "\tcircle3\tred\t1")
+
+		# 	# Polylines
+		# 	polylines = step['polyline']['points']
+		# 	line = polyline.decode(polylines)
+		# 	for point in line:
+		# 		print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
+			# print(str(point[0]) + "\t" + str(point[1]) + "\tcircle3\tred\t1")
 
 # Main
 def main():
-	#directions = Directions("McMaster University, Hamilton, ON", "CN Tower, Toronto, ON")
-	directions = Directions((43.2609,-79.9192), "CN Tower, Toronto, ON")
-	
-	#np.save("test.npy", directions.point_array)
-	#print(directions.point_array)
+	directions = Directions((43.612217, -79.695425), (43.597549, -79.640493))
+	np.save("test.npy", directions.point_array)
 	#print(directions.check_distance(25, -79))
-	directions.visualize()
+	directions.print_direction()
 
 if __name__ == '__main__':
 	main()
