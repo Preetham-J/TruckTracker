@@ -80,7 +80,7 @@ class Directions:
 # Main
 def main():
 	directions = Directions("McMaster University, Hamilton, ON", "CN Tower, Toronto, ON")
-	# print(directions.check_distance(25, -79))
+	print(directions.check_distance(25, -79))
 
 
 if __name__ == '__main__':
