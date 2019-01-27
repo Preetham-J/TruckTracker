@@ -1,9 +1,21 @@
 from Truck import Truck
 from directions.directions_analytics import Directions
+import json
+from GUI import GUI
 
 class ServerThread: 
 
 	alert = False
+
+#	serverParameters = {
+#		"Alert":'0'
+#		"Truck ID":'0'
+#		"Start Location":'0'
+#		"Destination":'0'
+#		"Latitude":'0'
+#		"Longitude":'0'
+#	}	
+
 	
 	def __init__(self, timeLimit, ID, code, startLocation, destination, latitude, longitude):
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
