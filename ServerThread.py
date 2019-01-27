@@ -2,6 +2,8 @@ from Truck import Truck
 from threading import Timer
 
 class ServerThread: 
+
+	alert = False
 	
 	def __init__(self, timeLimit, ID, code, startLocation, destination, latitude, longitude):
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
@@ -33,7 +35,14 @@ class ServerThread:
 			#self.requestCode() -- called by server instead 
 			return False
 
+	def verifyCode(self, inputCode):
+		if (inputCode == self.truck.code):
+			self.setRoute()
+		else:
+			self.sendAlert() 
+
 	def sendAlert(self):
+		alert = True
 		# prompt GUI to notify user if they want to request driver code
 		# this.parent.displayAlert
 	
