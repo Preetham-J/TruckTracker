@@ -8,7 +8,7 @@ class ServerThread:
 	def __init__(self, timeLimit, ID, code, startLocation, destination, latitude, longitude):
 		self.truck = Truck(ID, code, startLocation, destination, latitude, longitude)
 		self.timeLimit = timeLimit
-		# call setRoute and API (or in GUI?)
+		self.setRoute()
 
 	def setRoute(self):
 		return
@@ -29,10 +29,8 @@ class ServerThread:
 		# returns okay or not okay
 		check = True #set to return value of API call
 		if (check):
-			#self.receiveLocation() -- called by server instead
 			return True
 		else:	
-			#self.requestCode() -- called by server instead 
 			return False
 
 	def verifyCode(self, inputCode):
@@ -43,10 +41,3 @@ class ServerThread:
 
 	def sendAlert(self):
 		alert = True
-		# prompt GUI to notify user if they want to request driver code
-		# this.parent.displayAlert
-	
-	def updateLocation(self):
-		return
-		# returns current latitude and longitude
-		# this.parent.displayLocation
