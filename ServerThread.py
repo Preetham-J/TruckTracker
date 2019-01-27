@@ -3,6 +3,7 @@ from directions.directions_analytics import Directions
 import json
 from GUI import GUI
 
+
 class ServerThread: 
 
 	alert = False
