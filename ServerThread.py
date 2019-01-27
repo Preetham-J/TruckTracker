@@ -13,23 +13,25 @@ class ServerThread:
 		# instantiate/updates API with startLocation and destination
 		# when API returns that it is finished, start receiveLocation and updateLocation()
 
-	def receiveLocation(self, latitude, longitude):
+	def receiveLocation(self, newLatitude, newLongitude):
 		while True:
 			if (latitude and longitude):
 				#call update location
 				self.verifyLocation(latitude, longitude)
-				
-# While loop until data is received
-		# once data is received, update gpsData and call verifyLocation
+				return
+			else:
+				pass			
 
 	def verifyLocation(self, latitude, longitude):
 		# call API instance to check route
 		# returns okay or not okay
 		check = True #set to return value of API call
 		if (check):
-			self.receiveLocation()
+			#self.receiveLocation() -- called by server instead
+			return True
 		else:	
-			self.requestCode()
+			#self.requestCode() -- called by server instead 
+			return False
 
 	# correspond to send request, while loop, is past time limit, is code recieved
 	def requestCode(self):
@@ -61,6 +63,7 @@ class ServerThread:
 		# this.parent.displayAlert
 	# for GUI
 	def updateLocation(self):
-		return
+		
+	return
 		# returns current latitude and longitude
 		# this.parent.displayLocation
