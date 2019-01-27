@@ -11,5 +11,5 @@ def get_plate(image_path):
 	return r.json()["results"][0]["plate"]
 
 
-test_image = 'kd.jpg'
+test_image = 'uhaul-e1270783710407.jpg'
 print(get_plate(test_image))
